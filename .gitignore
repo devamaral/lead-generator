@@ -4,3 +4,5 @@ anon.session
 leads.txt
 script_backup.py
 .env
+dist
+build
