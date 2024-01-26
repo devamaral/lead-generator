@@ -102,7 +102,7 @@ async def main():
 
                     if age >= 18 and age <= 40:
                         with open('leads.txt', 'a') as leads:
-                            leads.write(f'\nTELEFONE: {generate_phone_number()}\nNOME: {name}\nCPF: {cpf}\nIDADE: {age}')
+                            leads.write(f'\nTELEFONE: {generate_phone_number()}\nNOME: {name}\nIDADE: {age}')
                             leads.write('\n=========================================================')
                         
                         print(green + f'{formatted_datetime} | LEAD ADICIONADO COM SUCESSO! ')
