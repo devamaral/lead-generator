@@ -7,6 +7,7 @@ import threading
 import keyboard
 from dotenv import load_dotenv
 import os
+from tqdm import tqdm
 
 def generate_phone_number():
     country_code_br = "+55"
@@ -31,10 +32,8 @@ name_pattern = r'\*\*• NOME:\*\* `([^`]+)`'
 cpf_pattern = r'\*\*• CPF/CNPJ:\*\* `(\d+)`'
 age_pattern = r'\*\*• IDADE:\*\* `(\d+)`'
 
-blue = '\033[34m'
 green = '\033[32m'
 yellow = '\033[33m'
-
 
 stop_program = False
 
@@ -47,12 +46,13 @@ def check_keyboard():
 
 async def main():
     group_link = 'https://t.me/sevenpuxada'
-
-    print(blue + '==============================')
-    print(blue + '      CAPTURA DE LEADS        ')
-    print(blue + '==============================')
-    print('')
+    print(f'{green}╔══════════════════════════════════════╗')
+    print(f'{green} |||||                            ||||| ')
+    print(f'{green}            CAPTURA DE LEADS            ')
+    print(f'{green} |||||                            ||||| ')
+    print(f'{green}╚══════════════════════════════════════╝')
     print(yellow + 'Pressione a tecla "Q" para parar o programa.')
+    print('')
 
     try:
         # Inicia a thread para verificar o teclado em segundo plano
@@ -63,6 +63,15 @@ async def main():
             formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
             group_entity = await client.get_entity(group_link)
+
+            # Inicia a barra de progresso antes de enviar o número de telefone
+            progress_bar = tqdm(range(10), desc=f"{green}CONSULTANDO NÚMERO: {generate_phone_number()}", bar_format="{l_bar}%s{bar}%s{r_bar}" % (green, green), leave=False)
+
+            for _ in progress_bar:
+                await asyncio.sleep(0.8)
+
+                if stop_program:
+                    break
 
             await client.send_message(group_link, '/telefone ' + generate_phone_number())
 
@@ -87,7 +96,7 @@ async def main():
                 if stop_program:
                     break
 
-                if '🔍 **𝗖𝗢𝗡𝗦𝗨𝗟𝗧𝗔 𝗗𝗘 𝗖𝗣𝗙 🔍' in message.text:
+                if '🔍 **𝗖𝗢𝗡𝗦𝗨𝗟𝗧𝗔 𝗗𝗘 𝗖𝗣𝗙 🔍' in message.text and message.mentioned == True:
                     name = re.search(name_pattern, message.text).group(1)
                     age = int(re.search(age_pattern, message.text).group(1))
 
