@@ -5,6 +5,8 @@ from telethon import TelegramClient
 from datetime import datetime
 import threading
 import keyboard
+from dotenv import load_dotenv
+import os
 
 def generate_phone_number():
     country_code_br = "+55"
@@ -18,8 +20,10 @@ def generate_phone_number():
     
     return phone_number
 
-api_id = 28151226
-api_hash = '1bcb4f2ea915998c64f68ba474d7db9b'
+load_dotenv()
+
+api_id = int(os.getenv('API_ID'))
+api_hash = os.getenv('API_HASH')
 client = TelegramClient('anon', api_id, api_hash)
 
 phone_pattern = r'\*\*• TELEFONE:\*\* `(\d+)`'

@@ -3,3 +3,4 @@ teste.session
 anon.session
 leads.txt
 script_backup.py
+.env
