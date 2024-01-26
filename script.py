@@ -90,7 +90,7 @@ async def main():
 
             await asyncio.sleep(3)
 
-            messages_cpf = await client.get_messages(group_entity, limit=2)
+            messages_cpf = await client.get_messages(group_entity, limit=5)
 
             for message in messages_cpf:
                 if stop_program:
@@ -100,7 +100,7 @@ async def main():
                     name = re.search(name_pattern, message.text).group(1)
                     age = int(re.search(age_pattern, message.text).group(1))
 
-                    if age >= 18 and age <= 40:
+                    if age >= 18 and age <= 100:
                         with open('leads.txt', 'a') as leads:
                             leads.write(f'\nTELEFONE: {generate_phone_number()}\nNOME: {name}\nIDADE: {age}')
                             leads.write('\n=========================================================')
